@@ -1,7 +1,11 @@
+data "http" "iam_policy"{
+  url="https://raw.githubusercontent.com/tam0201/kubeflow-manifests/main/awsconfigs/infra_configs/iam_profile_controller_policy.json"
+}
+
 resource "aws_iam_policy" "profile_controller_policy" {
   name_prefix = "profile-controller-policy"
   description = "IAM policy for the kubeflow pipelines profile controller"
-  policy = file("../../../awsconfigs/infra_configs/iam_profile_controller_policy.json")
+  policy = data.http.iam_policy.body
 }
 
 module "irsa" {

@@ -1,7 +1,10 @@
+data "http" "iam_policy"{
+  url="https://raw.githubusercontent.com/tam0201/kubeflow-manifests/main/awsconfigs/infra_configs/iam_ack_oidc_sm_studio_policy.json"
+}
 resource "aws_iam_policy" "sagemaker_ack_controller_studio_access" {
   name_prefix = "${local.service}-ack-controller-policy"
   description = "IAM policy for the ${local.service} ack controller"
-  policy      = file("../../../awsconfigs/infra_configs/iam_ack_oidc_sm_studio_policy.json")
+  policy      = data.http.iam_policy.body
 }
 
 module "irsa" {
